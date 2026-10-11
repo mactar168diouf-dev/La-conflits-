@@ -1,101 +1,34 @@
+
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>JACK MACTAR - 40 MISSIONS 16K SENEGAL</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;touch-action:none}
-body{background:#000;color:#fff;font-family:monospace;overflow:hidden;height:100vh}
-#game{height:100vh;position:relative}
-.sky{position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(#1a6eff 0%,#5aaeff 25%,#87CEEB 50%,#c8c49a 85%,#9a8a60 100%);z-index:1}
-.cloud{position:absolute;background:rgba(255,255,255,.9);border-radius:50px;filter:blur(1px);animation:wind 35s linear infinite}
-.terrain{position:absolute;top:38%;left:0;right:0;bottom:42%;background:linear-gradient(#8a8a78,#6b6b5a 30%,#7a6b4a 60%,#5a4a30 100%);z-index:2}
-.topBar{position:absolute;top:0;left:0;right:0;height:54px;background:linear-gradient(90deg,#00853F 33%,#FDEF42 33%,#FDEF42 66%,#E31E24 66%);display:flex;justify-content:center;z-index:30}
-.topIn{background:#000;margin:4px;padding:6px 10px;border-radius:8px;font-size:9px;display:flex;gap:8px;border:2px solid #FDEF42;align-items:center}
-.field{position:absolute;top:54px;left:50%;transform:translateX(-50%);width:98%;height:50%;background:rgba(0,0,0,.18);border:2px solid #FDEF42;border-radius:10px;overflow:hidden;z-index:10}
-.unit{position:absolute;font-size:10px;display:flex;align-items:center;justify-content:center}
-.sen{width:30px;height:34px;background:linear-gradient(#2d6a2d,#1a3a1a);border:2px solid #FDEF42;border-radius:5px;box-shadow:0 0 7px #FDEF42;z-index:13;color:#fff;font-weight:bold}
-.enn{width:28px;height:32px;background:linear-gradient(#5a2a2a,#2a0a0a);border:1px solid #600;border-radius:4px;z-index:12}
-.civ{width:24px;height:28px;background:linear-gradient(#9a8a6a,#6a5a40);border:1px solid #444;border-radius:12px 12px 4px 4px;z-index:9;animation:walk 5s ease-in-out infinite}
-.anim{position:absolute;font-size:15px;z-index:10;animation:cross 20s linear infinite}
-.trash{position:absolute;font-size:10px;z-index:7;animation:windBlow 7s ease-in-out infinite}
-.build{position:absolute;background:linear-gradient(#5a5a5a,#3a3a3a);border:1px solid #222;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;z-index:6}
-.build.burn{animation:fire.35s infinite;background:linear-gradient(#8a3a00,#4a1a00);border-color:#a40}
-.build.fall{transform:rotate(14deg);opacity:.75}
-.controls{position:absolute;bottom:0;left:0;right:0;height:40%;z-index:20;pointer-events:none}
-.joy{position:absolute;left:12px;bottom:16px;width:110px;height:110px;background:radial-gradient(circle,rgba(255,255,255,.15),rgba(0,0,0,.6));border:2px solid #fff;border-radius:50%;pointer-events:auto}
-.stick{position:absolute;left:50%;top:50%;width:46px;height:46px;background:radial-gradient(circle,#FDEF42,#8a7a00);border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:9px}
-.right{position:absolute;right:6px;bottom:6px;width:162px;height:176px;pointer-events:auto}
-.btn{position:absolute;background:rgba(0,0,0,.92);border:2px solid #777;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7px;font-weight:bold}
-#fire{right:6px;top:0;width:70px;height:70px;border-color:#E31E24;background:radial-gradient(circle,#a00,#400)}
-#next{right:84px;top:4px;width:48px;height:48px;border-color:#FDEF42;color:#FDEF42}
-#scan{right:90px;bottom:60px;width:44px;height:44px;border-color:#0ff;color:#0ff}
-#peek{right:20px;bottom:60px;width:44px;height:44px;border-color:#FDEF42}
-#reload{right:92px;bottom:6px;width:42px;height:42px}
-#crouch{right:22px;bottom:6px;width:42px;height:42px}
-.log{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.94);border:1px solid #FDEF42;border-radius:12px;padding:5px 9px;font-size:8px;z-index:25;max-width:97%;text-align:center}
-@keyframes wind{0%{transform:translateX(-120px)}100%{transform:translateX(calc(100vw + 120px))}}
-@keyframes walk{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-@keyframes cross{0%{left:-6%;top:62%}100%{left:106%;top:56%}}
-@keyframes windBlow{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(16px) rotate(10deg)}}
-@keyframes fire{0%,100%{filter:brightness(1)}50%{filter:brightness(1.7) hue-rotate(8deg)}}
-</style>
-</head>
-<body>
-<div id="game">
-<div class="sky" id="sky"></div>
-<div class="terrain"></div>
-<div class="topBar"><div class="topIn"><span>🇸🇳 ARMÉE SEN</span><span id="mis" style="color:#FDEF42">MISSION 1/40</span><span id="team" style="color:#0f0">20 SEN</span><span id="enm" style="color:#f55">40 ENN</span><span id="chap">CHAP 1</span></div></div>
-<div class="field" id="field"></div>
-<div class="controls"><div class="joy" id="joy"><div class="stick" id="stick">JACK</div></div><div class="right"><div class="btn" id="fire">🔥<br>TIR</div><div class="btn" id="next">📖<br>SUIV</div><div class="btn" id="scan">🔍<br>SCAN</div><div class="btn" id="peek">👁️<br>OEIL</div><div class="btn" id="reload">🔄<br>RECH</div><div class="btn" id="crouch">🧎<br>ACC</div></div></div>
-<div class="log" id="log">HISTOIRE 16K: BIGNONA - Casamance. 20 SEN vs 40 ENN. Civils, animaux, vent, ordures, maisons brûlées.</div>
-</div>
+<html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<style>body{margin:0;overflow:hidden;background:#1a2e0a}canvas{width:100vw;height:100vh;display:block}#hud{position:absolute;top:0;left:0;right:0;background:#000d;color:#0f0;display:flex;justify-content:space-between;padding:8px;font:12px monospace}#joy{position:absolute;bottom:20px;left:20px;width:110px;height:110px;border-radius:50%;background:#fff2;border:2px solid #fff5}#stick{position:absolute;left:30px;top:30px;width:50px;height:50px;border-radius:50%;background:#0f0a;border:2px solid #0f0}#fire{position:absolute;bottom:30px;right:20px;width:80px;height:80px;border-radius:50%;background:red;color:#fff;border:none;font-weight:bold}</style>
+</head><body>
+<div id="hud"><span>SEN: <b id="s">20</b></span><span>BIGNONA 2034</span><span>REB: <b id="r">25</b></span></div>
+<canvas id="c"></canvas>
+<div id="joy"><div id="stick"></div></div><button id="fire">TIR</button>
 <script>
-const HIST=[
-"M1 BIGNONA 1: 20 SEN déployés, 40 rebelles dans maisons brûlées. Civils fuient, chèvres traversent.",
-"M2 BAGANDA: Village abandonné, bâtiments tombés, ordures volent avec vent fort.",
-"M3 BIGNONA 2: Rizières en feu, femmes et enfants sans lien guerre passent entre tirs.",
-"M4 DIANAH: Route bloquée carcasses 4x4, vent sable, 40 ENN embusqués mines.",
-"M5 ZIGUINCHOR 1: Ville ruine, maisons brûlent, poules chiens errent.",
-"M6 ZIGUINCHOR 2: Marché détruit, ordures partout, 40 snipers sur toits tombés.",
-"M7 OUSSOUYE: Forêt arbres brûlés, singes fuient, civils cachés.",
-"M8 KOLDA 1: Base rebelle, bâtiments tombés, vent soulève plastique.",
-"M9 KOLDA 2: Montagne, artillerie, villageois continuent vie malgré guerre.",
-"M10 SEDHIOU 1: Pont cassé, eau boueuse, animaux traversent champ.",
-"M11-20: Forêts profondes, chaque champ 20 vs 40 avec vie civile intacte.",
-"M21-30: Retour Bignona Cap Skirring Elinkine, écoles tombées, résilience.",
-"M31-40 FINALE: Bignona QG libéré, 20 soldats sénégalais victorieux, reconstruction."
-];
-let cur=0,field=document.getElementById('field'),sky=document.getElementById('sky');
-function spawn(){
- field.innerHTML='';sky.innerHTML='';
- for(let i=0;i<6;i++){let c=document.createElement('div');c.className='cloud';c.style.width=(70+Math.random()*90)+'px';c.style.height=(20+Math.random()*22)+'px';c.style.left=(-15+Math.random()*90)+'%';c.style.top=(4+Math.random()*28)+'%';c.style.animationDelay=(Math.random()*12)+'s';sky.appendChild(c)}
- for(let i=0;i<9;i++){let b=document.createElement('div');b.className='build '+(Math.random()>0.45?'burn':'fall');b.style.left=(1+i*11)+'%';b.style.top=(Math.random()>0.5?'2%':'64%');b.style.width=(40+Math.random()*30)+'px';b.style.height=(24+Math.random()*24)+'px';b.textContent=Math.random()>0.5?'🔥 BRÛLE':'🏚️ TOMBÉ';field.appendChild(b)}
- const trash=['🛞','📦','🧴','🪵','🍂','💨','🗑️'];for(let i=0;i<16;i++){let d=document.createElement('div');d.className='trash';d.textContent=trash[i%trash.length];d.style.left=(Math.random()*95)+'%';d.style.top=(8+Math.random()*84)+'%';d.style.animationDelay=(Math.random()*6)+'s';field.appendChild(d)}
- const animals=['🐐','🐓','🐕','🐈','🐄','🦜'];for(let i=0;i<6;i++){let a=document.createElement('div');a.className='anim';a.textContent=animals[i%animals.length];a.style.top=(16+Math.random()*66)+'%';a.style.animationDelay=(i*3.2)+'s';field.appendChild(a)}
- for(let i=0;i<9;i++){let civ=document.createElement('div');civ.className='unit civ';civ.textContent=['👨‍🌾','👩‍🌾','👴','👵','👦','👧'][i%6];civ.style.left=(4+Math.random()*88)+'%';civ.style.top=(18+Math.random()*62)+'%';field.appendChild(civ)}
- for(let i=0;i<20;i++){let s=document.createElement('div');s.className='unit sen';s.textContent=i==0?'JACK':'🇸🇳';s.style.left=(12+Math.random()*76)+'%';s.style.top=(32+Math.random()*48)+'%';if(i==0){s.id='jack';s.style.left='50%';s.style.top='50%';s.style.width='36px';s.style.height='42px'}field.appendChild(s)}
- for(let i=0;i<40;i++){let e=document.createElement('div');e.className='unit enn';e.textContent=['AK','RPG','PKM'][i%3];e.style.left=(Math.random()*92)+'%';e.style.top=(Math.random()*86)+'%';field.appendChild(e)}
- document.getElementById('mis').textContent='MISSION '+(cur+1)+'/40';
- document.getElementById('enm').textContent=document.querySelectorAll('.enn').length+' ENN';
- document.getElementById('chap').textContent='CHAP '+(Math.floor(cur/3)+1);
- document.getElementById('log').textContent='📖 '+HIST[Math.min(cur,HIST.length-1)];
-}
-let joy=document.getElementById('joy'),stick=document.getElementById('stick'),act=false,cx=0,cy=0;
-joy.addEventListener('touchstart',e=>{act=true;let r=joy.getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;e.preventDefault()});
-joy.addEventListener('touchmove',e=>{if(!act)return;let t=e.touches[0],dx=t.clientX-cx,dy=t.clientY-cy,dist=Math.min(Math.hypot(dx,dy),42),ang=Math.atan2(dy,dx),sx=Math.cos(ang)*dist,sy=Math.sin(ang)*dist;stick.style.transform='translate(calc(-50% + '+sx+'px),calc(-50% + '+sy+'px))';let jack=document.getElementById('jack');if(jack){let nx=parseFloat(jack.style.left)+sx*0.18,ny=parseFloat(jack.style.top)+sy*0.18;jack.style.left=Math.max(2,Math.min(92,nx))+'%';jack.style.top=Math.max(2,Math.min(88,ny))+'%'}e.preventDefault()},{passive:false});
-joy.addEventListener('touchend',()=>{act=false;stick.style.transform='translate(-50%,-50%)'});
-function fire(){
- let ens=[...document.querySelectorAll('.enn')].filter(x=>x.style.display!='none');
- if(!ens.length){cur++;if(cur<40){spawn();document.getElementById('log').textContent='✅ LIBÉRÉ! Mission '+(cur+1)+'/40 - '+HIST[Math.min(cur,HIST.length-1)];localStorage.setItem('jack_mission',cur)}else{document.getElementById('log').textContent='🇸🇳 40/40 FINI! Casamance libérée, civils sauvés!'}return}
- let tar=ens[Math.floor(Math.random()*Math.min(3,ens.length))];tar.style.display='none';
- document.getElementById('enm').textContent=(ens.length-1)+' ENN';
- if(navigator.vibrate)navigator.vibrate(30);
-}
-document.getElementById('fire').addEventListener('touchstart',e=>{fire();e.preventDefault()});
-document.getElementById('next').addEventListener('touchstart',e=>{fire();e.preventDefault()});
-cur=parseInt(localStorage.getItem('jack_mission')||'0');spawn();
-</script>
-</body>
-</html>
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+let W=canvas.width=window.innerWidth*2, H=canvas.height=window.innerHeight*2;
+window.onresize=()=>{W=canvas.width=innerWidth*2; H=canvas.height=innerHeight*2}
+let houses=[{x:W*0.2,y:H*0.25,w:140,h:100},{x:W*0.6,y:H*0.2,w:160,h:110},{x:W*0.3,y:H*0.55,w:170,h:120},{x:W*0.65,y:H*0.65,w:140,h:100}];
+let soldiers=[],enemies=[];
+for(let i=0;i<20;i++) soldiers.push({x:100+Math.random()*200,y:200+Math.random()*300,tx:W*0.3,ty:H*0.4,vx:0,vy:0,hp:100,a:0,team:'S'})
+for(let i=0;i<25;i++) enemies.push({x:W*0.6+Math.random()*300,y:200+Math.random()*400,tx:W*0.6,ty:H*0.5,vx:0,vy:0,hp:100,a:0,team:'R'})
+let chef=soldiers[0], joy=document.getElementById('joy'), stick=document.getElementById('stick'), jv={x:0,y:0}, ja=false;
+joy.addEventListener('touchstart',()=>ja=true); joy.addEventListener('touchend',()=>{ja=false;jv={x:0,y:0};stick.style.left='30px';stick.style.top='30px'});
+joy.addEventListener('touchmove',e=>{let r=joy.getBoundingClientRect(),t=e.touches[0],dx=t.clientX-r.left-55,dy=t.clientY-r.top-55,d=Math.hypot(dx,dy),m=35;if(d>m){dx=dx/d*m;dy=dy/d*m}stick.style.left=30+dx+'px';stick.style.top=30+dy+'px';jv={x:dx/m,y:dy/m}});
+document.getElementById('fire').ontouchstart=()=>{enemies.forEach(en=>{if(Math.hypot(en.x-chef.x,en.y-chef.y)<350)en.hp-=30})}
+function drawHouse(h){ctx.fillStyle='#e8d5b5';ctx.fillRect(h.x,h.y,h.w,h.h);ctx.fillStyle='#8b4513';ctx.beginPath();ctx.moveTo(h.x-10,h.y);ctx.lineTo(h.x+h.w/2,h.y-50);ctx.lineTo(h.x+h.w+10,h.y);ctx.fill()}
+function drawHuman(p,e){ctx.save();ctx.translate(p.x,p.y);let leg=Math.sin(p.a)*9;ctx.fillStyle='#0003';ctx.beginPath();ctx.ellipse(0,20,12,4,0,0,6.28);ctx.fill();ctx.strokeStyle=e?'#4b2e0f':'#1a5c2a';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-4,8);ctx.lineTo(-4+leg,19);ctx.stroke();ctx.beginPath();ctx.moveTo(4,8);ctx.lineTo(4-leg,19);ctx.stroke();ctx.fillStyle=e?'#8b4513':'#2ecc71';ctx.fillRect(-7,0,14,12);ctx.fillStyle=e?'#000':'#0a3d0a';ctx.beginPath();ctx.arc(0,-7,9,0,6.28);ctx.fill();ctx.fillStyle='#c68642';ctx.beginPath();ctx.arc(0,-6,4,0,6.28);ctx.fill();ctx.fillStyle='#222';ctx.fillRect(6,-2,16,3);ctx.restore()}
+function loop(){
+ctx.fillStyle='#a8c686';ctx.fillRect(0,0,W,H);
+houses.forEach(drawHouse);
+if(ja){chef.tx+=jv.x*15; chef.ty+=jv.y*15}
+soldiers.forEach((s,i)=>{if(s!==chef){s.tx=chef.tx+Math.cos(i)*40; s.ty=chef.ty+Math.sin(i)*40} s.vx+=(s.tx-s.x)*0.03; s.vy+=(s.ty-s.y)*0.03; s.vx*=0.88; s.vy*=0.88; s.x+=s.vx; s.y+=s.vy; s.a+=Math.hypot(s.vx,s.vy)*0.15});
+enemies.forEach(en=>{let ns=soldiers.filter(ss=>Math.hypot(en.x-ss.x,en.y-ss.y)<200).length; if(ns>3){en.tx+=en.x-chef.x; en.ty+=en.y-chef.y}else{let t=soldiers[Math.floor(Math.random()*soldiers.length)];en.tx=t.x; en.ty=t.y} en.vx+=(en.tx-en.x)*0.02; en.vy+=(en.ty-en.y)*0.02; en.vx*=0.9; en.vy*=0.9; en.x+=en.vx; en.y+=en.vy; en.a+=Math.hypot(en.vx,en.vy)*0.15});
+enemies=enemies.filter(e=>e.hp>0); soldiers=soldiers.filter(e=>e.hp>0);
+[...soldiers,...enemies].sort((a,b)=>a.y-b.y).forEach(p=>drawHuman(p,p.team==='R'));
+document.getElementById('s').innerText=soldiers.length; document.getElementById('r').innerText=enemies.length;
+requestAnimationFrame(loop)} loop();
+</script></body></html>
