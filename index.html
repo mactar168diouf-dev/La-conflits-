@@ -1,1 +1,101 @@
-<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>JACK MACTAR DIOUF - COD SENEGAL</title><style>*{margin:0;padding:0;box-sizing:border-box;touch-action:none;user-select:none}body{background:#000;color:#fff;font-family:monospace;overflow:hidden;height:100vh;display:flex;flex-direction:column}#game{flex:1;position:relative;background:radial-gradient(ellipse at center,#1a2f1a 0%,#0a1a0a 60%,#000 100%);overflow:hidden}.top-bar{position:absolute;top:0;left:0;right:0;height:36px;background:linear-gradient(90deg,#00853F 33%,#FDEF42 33%,#FDEF42 66%,#E31E24 66%);display:flex;align-items:center;justify-content:space-between;padding:0 10px;z-index:10}.top-in{background:#000;padding:4px 10px;border-radius:6px;display:flex;gap:12px;font-size:10px}.hud-helico{position:absolute;top:45px;left:5px;right:5px;display:flex;justify-content:space-between;z-index:5}.helico-modern{background:rgba(0,0,0,0.85);border:2px solid #FDEF42;border-radius:8px;padding:5px 8px;font-size:9px;text-align:center;min-width:110px}.battlefield{position:absolute;top:110px;left:50%;transform:translateX(-50%);width:92%;height:42%;background:linear-gradient(#1e3a1e,#0f2a0f);border:2px solid #333;border-radius:10px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px;padding:8px}.soldier{width:28px;height:28px;background:#222;border:1px solid #0f0;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}.soldier.jack{background:#FDEF42;color:#000;border-color:#E31E24;width:34px;height:34px;font-weight:bold;box-shadow:0 0 10px #FDEF42}.controls{position:absolute;bottom:0;left:0;right:0;height:38%;pointer-events:none}.left-pad{position:absolute;left:8px;bottom:20px;width:130px;height:130px;pointer-events:auto}.dpad{position:absolute;width:48px;height:48px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.4);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff}.dpad:active{background:rgba(253,239,66,0.6)}#up{left:41px;top:0}#down{left:41px;bottom:0}#left{left:0;top:41px}#right{right:0;top:41px}.center-btn{position:absolute;left:41px;top:41px;width:48px;height:48px;background:rgba(0,133,63,0.5);border:2px solid #00ff88;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px}.right-pad{position:absolute;right:8px;bottom:15px;width:160px;height:180px;pointer-events:auto}.action-btn{position:absolute;background:rgba(0,0,0,0.6);border:2px solid #fff;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:9px;font-weight:bold}.action-btn:active{transform:scale(0.9);background:rgba(253,239,66,0.7)}#fire{right:10px;top:10px;width:72px;height:72px;border-color:#E31E24;background:rgba(227,30,36,0.4);font-size:14px}#aim{right:90px;top:15px;width:52px;height:52px;border-color:#00ff88}#peekL{right:95px;bottom:65px;width:46px;height:46px;border-color:#FDEF42;color:#FDEF42}#peekR{right:25px;bottom:65px;width:46px;height:46px;border-color:#FDEF42;color:#FDEF42}#reload{right:100px;bottom:10px;width:44px;height:44px}#crouch{right:30px;bottom:10px;width:44px;height:44px}#switchW{left:0;top:20px;width:42px;height:42px;font-size:8px}.crosshair{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);width:30px;height:30px;pointer-events:none;z-index:6}.crosshair::before,.crosshair::after{content:'';position:absolute;background:#00ff88}.crosshair::before{width:2px;height:30px;left:14px;top:0}.crosshair::after{width:30px;height:2px;left:0;top:14px}.mission-bar{position:absolute;bottom:2px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);border:1px solid #FDEF42;border-radius:20px;padding:4px 14px;font-size:10px;z-index:7;white-space:nowrap}</style></head><body><div id="game"><div class="top-bar"><div class="top-in"><span>🇸🇳 JACK MACTAR DIOUF</span><span id="missionTxt" style="color:#FDEF42">MISSION 1/40</span><span id="ammo" style="color:#00ff88">16/16</span></div><div class="top-in"><span id="grade">SOLDAT</span></div></div><div class="hud-helico"><div class="helico-modern">🚁 AH-64E APACHE<br><span style="color:#FDEF42">DERNIERE GEN - 8 HOMMES</span><br><span style="color:#00ff88">● EN VOL</span></div><div class="helico-modern">🚁 AH-64E APACHE<br><span style="color:#FDEF42">DERNIERE GEN - 8 HOMMES</span><br><span style="color:#00ff88">● EN VOL</span></div></div><div class="battlefield" id="field"><div style="width:100%;text-align:center;color:#FDEF42;font-size:11px">📍 BIGNONA - ZONE HOSTILE</div></div><div class="crosshair" id="cross"></div><div class="controls"><div class="left-pad"><div class="dpad" id="up">▲</div><div class="dpad" id="down">▼</div><div class="dpad" id="left">◀</div><div class="dpad" id="right">▶</div><div class="center-btn">JACK</div></div><div class="right-pad"><div class="action-btn" id="fire" onclick="fire()">🔥<br>TIR</div><div class="action-btn" id="aim" onclick="aim()">🎯<br>VISER</div><div class="action-btn" id="peekL" onclick="peek('L')">👁️◀<br>COUP D'OEIL</div><div class="action-btn" id="peekR" onclick="peek('R')">▶👁️<br>COUP D'OEIL</div><div class="action-btn" id="reload" onclick="reload()">🔄<br>RECHARGE</div><div class="action-btn" id="crouch" onclick="crouch()">🧎<br>ACCROUPI</div><div class="action-btn" id="switchW" onclick="alert('M4A1 + RPG')">🔫<br>ARME</div></div></div><div class="mission-bar" id="logBar">🚁 DEPOSE 16 HOMMES - APPUIE TIR</div></div><script>let missions=Array(40).fill(0),cur=0,ammo=16,aiming=false,peeking=null;const zones=["BIGNONA 1","BAGANDA","BIGNONA 2","DIANAH","ZIG 1","ZIG 2","OUSSOUYE","KOLDA 1","KOLDA 2","SEDHIOU 1","SEDHIOU 2","BIGNONA 3","FORET 1","FORET 2","VILLAGE 1","VILLAGE 2","FRONT 1","FRONT 2","BASE 1","BASE 2","BIGNONA 4","ZIG 3","KOLDA 3","CAP SKIRRING","ELINKINE","DIOULOULOU","TENDOUCK","MARSASSOUM","ADEANE","NIAGUIS","NYASSIA","BOUTOUPA","ENAMPORE","KATABA","KAFOUNTINE","ABENE","DIOEMBERING","CARABANE","BIGNONA QG"];function spawn(){let f=document.getElementById('field');f.innerHTML='<div style="width:100%;text-align:center;color:#FDEF42;font-size:11px">📍 '+zones[cur]+' - '+(missions[cur]?'LIBÉRÉE':'HOSTILE')+'</div>';for(let i=0;i<16;i++){let d=document.createElement('div');d.className=i===0?'soldier jack':'soldier';d.textContent=i===0?'J':'●';f.appendChild(d)}let eng=document.createElement('div');eng.style.cssText='width:100%;display:flex;justify-content:space-around;margin-top:4px;font-size:9px';eng.innerHTML='<div style="background:rgba(0,0,0,0.85);border:1px solid #00853F;border-radius:6px;padding:3px 6px">🚛 M2 BRADLEY 30mm</div><div style="background:rgba(0,0,0,0.85);border:1px solid #00853F;border-radius:6px;padding:3px 6px">🚛 VBCI 2 25mm</div>';f.appendChild(eng);document.getElementById('missionTxt').textContent='MISSION '+(cur+1)+'/40';document.getElementById('ammo').textContent=ammo+'/16'}function fire(){if(ammo<=0)return;ammo--;document.getElementById('ammo').textContent=ammo+'/16';let f=document.getElementById('field');f.style.background='linear-gradient(#3a1a1a,#2a0f0f)';setTimeout(()=>f.style.background='linear-gradient(#1e3a1e,#0f2a0f)',100);let s=document.querySelectorAll('.soldier:not(.jack)');if(s.length){let t=s[Math.floor(Math.random()*s.length)];t.textContent='✕';t.style.background='#E31E24';setTimeout(()=>{t.style.display='none';check()},200)}document.getElementById('logBar').textContent='🔥 TIR! '+ammo+'/16 - Ennemi touché!'}function check(){let a=document.querySelectorAll('.soldier:not(.jack):not([style*="display: none"])').length;if(a===0&&!missions[cur]){missions[cur]=1;document.getElementById('logBar').textContent='✅ ZONE '+zones[cur]+' LIBÉRÉE!';setTimeout(()=>{if(cur<39){cur++;ammo=16;spawn();document.getElementById('logBar').textContent='🚁 MISSION '+(cur+1)+' - '+zones[cur]+' - DEPOSE 16 HOMMES'}else{document.getElementById('logBar').textContent='🇸🇳 VICTOIRE 40/40 - CASAMANCE LIBÉRÉE!'}},1200)}}function aim(){aiming=!aiming;document.getElementById('cross').style.transform='translate(-50%,-50%) scale('+(aiming?1.8:1)+')';document.getElementById('logBar').textContent=aiming?'🎯 VISÉE x2 ACTIVÉE':'🎯 VISÉE NORMALE'}function peek(d){document.getElementById('field').style.transform=d==='L'?'translateX(-40%)':'translateX(-60%)';document.getElementById('logBar').textContent=d==='L'?'👁️◀ COUP D\'OEIL GAUCHE':'▶👁️ COUP D\'OEIL DROIT';setTimeout(()=>{document.getElementById('field').style.transform='translateX(-50%)'},1200)}function reload(){ammo=16;document.getElementById('ammo').textContent='16/16';document.getElementById('logBar').textContent='🔄 RECHARGÉ 16/16 - AH-64E couvrent!'}function crouch(){document.getElementById('field').style.height=document.getElementById('field').style.height==='32%'?'42%':'32%';document.getElementById('logBar').textContent='🧎 ACCROUPI / DEBOUT'}spawn();</script></body></html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>JACK MACTAR - 40 MISSIONS 16K SENEGAL</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;touch-action:none}
+body{background:#000;color:#fff;font-family:monospace;overflow:hidden;height:100vh}
+#game{height:100vh;position:relative}
+.sky{position:absolute;top:0;left:0;right:0;height:38%;background:linear-gradient(#1a6eff 0%,#5aaeff 25%,#87CEEB 50%,#c8c49a 85%,#9a8a60 100%);z-index:1}
+.cloud{position:absolute;background:rgba(255,255,255,.9);border-radius:50px;filter:blur(1px);animation:wind 35s linear infinite}
+.terrain{position:absolute;top:38%;left:0;right:0;bottom:42%;background:linear-gradient(#8a8a78,#6b6b5a 30%,#7a6b4a 60%,#5a4a30 100%);z-index:2}
+.topBar{position:absolute;top:0;left:0;right:0;height:54px;background:linear-gradient(90deg,#00853F 33%,#FDEF42 33%,#FDEF42 66%,#E31E24 66%);display:flex;justify-content:center;z-index:30}
+.topIn{background:#000;margin:4px;padding:6px 10px;border-radius:8px;font-size:9px;display:flex;gap:8px;border:2px solid #FDEF42;align-items:center}
+.field{position:absolute;top:54px;left:50%;transform:translateX(-50%);width:98%;height:50%;background:rgba(0,0,0,.18);border:2px solid #FDEF42;border-radius:10px;overflow:hidden;z-index:10}
+.unit{position:absolute;font-size:10px;display:flex;align-items:center;justify-content:center}
+.sen{width:30px;height:34px;background:linear-gradient(#2d6a2d,#1a3a1a);border:2px solid #FDEF42;border-radius:5px;box-shadow:0 0 7px #FDEF42;z-index:13;color:#fff;font-weight:bold}
+.enn{width:28px;height:32px;background:linear-gradient(#5a2a2a,#2a0a0a);border:1px solid #600;border-radius:4px;z-index:12}
+.civ{width:24px;height:28px;background:linear-gradient(#9a8a6a,#6a5a40);border:1px solid #444;border-radius:12px 12px 4px 4px;z-index:9;animation:walk 5s ease-in-out infinite}
+.anim{position:absolute;font-size:15px;z-index:10;animation:cross 20s linear infinite}
+.trash{position:absolute;font-size:10px;z-index:7;animation:windBlow 7s ease-in-out infinite}
+.build{position:absolute;background:linear-gradient(#5a5a5a,#3a3a3a);border:1px solid #222;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;z-index:6}
+.build.burn{animation:fire.35s infinite;background:linear-gradient(#8a3a00,#4a1a00);border-color:#a40}
+.build.fall{transform:rotate(14deg);opacity:.75}
+.controls{position:absolute;bottom:0;left:0;right:0;height:40%;z-index:20;pointer-events:none}
+.joy{position:absolute;left:12px;bottom:16px;width:110px;height:110px;background:radial-gradient(circle,rgba(255,255,255,.15),rgba(0,0,0,.6));border:2px solid #fff;border-radius:50%;pointer-events:auto}
+.stick{position:absolute;left:50%;top:50%;width:46px;height:46px;background:radial-gradient(circle,#FDEF42,#8a7a00);border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;color:#000;font-weight:bold;font-size:9px}
+.right{position:absolute;right:6px;bottom:6px;width:162px;height:176px;pointer-events:auto}
+.btn{position:absolute;background:rgba(0,0,0,.92);border:2px solid #777;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:7px;font-weight:bold}
+#fire{right:6px;top:0;width:70px;height:70px;border-color:#E31E24;background:radial-gradient(circle,#a00,#400)}
+#next{right:84px;top:4px;width:48px;height:48px;border-color:#FDEF42;color:#FDEF42}
+#scan{right:90px;bottom:60px;width:44px;height:44px;border-color:#0ff;color:#0ff}
+#peek{right:20px;bottom:60px;width:44px;height:44px;border-color:#FDEF42}
+#reload{right:92px;bottom:6px;width:42px;height:42px}
+#crouch{right:22px;bottom:6px;width:42px;height:42px}
+.log{position:absolute;bottom:3px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.94);border:1px solid #FDEF42;border-radius:12px;padding:5px 9px;font-size:8px;z-index:25;max-width:97%;text-align:center}
+@keyframes wind{0%{transform:translateX(-120px)}100%{transform:translateX(calc(100vw + 120px))}}
+@keyframes walk{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes cross{0%{left:-6%;top:62%}100%{left:106%;top:56%}}
+@keyframes windBlow{0%,100%{transform:translateX(0) rotate(0)}50%{transform:translateX(16px) rotate(10deg)}}
+@keyframes fire{0%,100%{filter:brightness(1)}50%{filter:brightness(1.7) hue-rotate(8deg)}}
+</style>
+</head>
+<body>
+<div id="game">
+<div class="sky" id="sky"></div>
+<div class="terrain"></div>
+<div class="topBar"><div class="topIn"><span>🇸🇳 ARMÉE SEN</span><span id="mis" style="color:#FDEF42">MISSION 1/40</span><span id="team" style="color:#0f0">20 SEN</span><span id="enm" style="color:#f55">40 ENN</span><span id="chap">CHAP 1</span></div></div>
+<div class="field" id="field"></div>
+<div class="controls"><div class="joy" id="joy"><div class="stick" id="stick">JACK</div></div><div class="right"><div class="btn" id="fire">🔥<br>TIR</div><div class="btn" id="next">📖<br>SUIV</div><div class="btn" id="scan">🔍<br>SCAN</div><div class="btn" id="peek">👁️<br>OEIL</div><div class="btn" id="reload">🔄<br>RECH</div><div class="btn" id="crouch">🧎<br>ACC</div></div></div>
+<div class="log" id="log">HISTOIRE 16K: BIGNONA - Casamance. 20 SEN vs 40 ENN. Civils, animaux, vent, ordures, maisons brûlées.</div>
+</div>
+<script>
+const HIST=[
+"M1 BIGNONA 1: 20 SEN déployés, 40 rebelles dans maisons brûlées. Civils fuient, chèvres traversent.",
+"M2 BAGANDA: Village abandonné, bâtiments tombés, ordures volent avec vent fort.",
+"M3 BIGNONA 2: Rizières en feu, femmes et enfants sans lien guerre passent entre tirs.",
+"M4 DIANAH: Route bloquée carcasses 4x4, vent sable, 40 ENN embusqués mines.",
+"M5 ZIGUINCHOR 1: Ville ruine, maisons brûlent, poules chiens errent.",
+"M6 ZIGUINCHOR 2: Marché détruit, ordures partout, 40 snipers sur toits tombés.",
+"M7 OUSSOUYE: Forêt arbres brûlés, singes fuient, civils cachés.",
+"M8 KOLDA 1: Base rebelle, bâtiments tombés, vent soulève plastique.",
+"M9 KOLDA 2: Montagne, artillerie, villageois continuent vie malgré guerre.",
+"M10 SEDHIOU 1: Pont cassé, eau boueuse, animaux traversent champ.",
+"M11-20: Forêts profondes, chaque champ 20 vs 40 avec vie civile intacte.",
+"M21-30: Retour Bignona Cap Skirring Elinkine, écoles tombées, résilience.",
+"M31-40 FINALE: Bignona QG libéré, 20 soldats sénégalais victorieux, reconstruction."
+];
+let cur=0,field=document.getElementById('field'),sky=document.getElementById('sky');
+function spawn(){
+ field.innerHTML='';sky.innerHTML='';
+ for(let i=0;i<6;i++){let c=document.createElement('div');c.className='cloud';c.style.width=(70+Math.random()*90)+'px';c.style.height=(20+Math.random()*22)+'px';c.style.left=(-15+Math.random()*90)+'%';c.style.top=(4+Math.random()*28)+'%';c.style.animationDelay=(Math.random()*12)+'s';sky.appendChild(c)}
+ for(let i=0;i<9;i++){let b=document.createElement('div');b.className='build '+(Math.random()>0.45?'burn':'fall');b.style.left=(1+i*11)+'%';b.style.top=(Math.random()>0.5?'2%':'64%');b.style.width=(40+Math.random()*30)+'px';b.style.height=(24+Math.random()*24)+'px';b.textContent=Math.random()>0.5?'🔥 BRÛLE':'🏚️ TOMBÉ';field.appendChild(b)}
+ const trash=['🛞','📦','🧴','🪵','🍂','💨','🗑️'];for(let i=0;i<16;i++){let d=document.createElement('div');d.className='trash';d.textContent=trash[i%trash.length];d.style.left=(Math.random()*95)+'%';d.style.top=(8+Math.random()*84)+'%';d.style.animationDelay=(Math.random()*6)+'s';field.appendChild(d)}
+ const animals=['🐐','🐓','🐕','🐈','🐄','🦜'];for(let i=0;i<6;i++){let a=document.createElement('div');a.className='anim';a.textContent=animals[i%animals.length];a.style.top=(16+Math.random()*66)+'%';a.style.animationDelay=(i*3.2)+'s';field.appendChild(a)}
+ for(let i=0;i<9;i++){let civ=document.createElement('div');civ.className='unit civ';civ.textContent=['👨‍🌾','👩‍🌾','👴','👵','👦','👧'][i%6];civ.style.left=(4+Math.random()*88)+'%';civ.style.top=(18+Math.random()*62)+'%';field.appendChild(civ)}
+ for(let i=0;i<20;i++){let s=document.createElement('div');s.className='unit sen';s.textContent=i==0?'JACK':'🇸🇳';s.style.left=(12+Math.random()*76)+'%';s.style.top=(32+Math.random()*48)+'%';if(i==0){s.id='jack';s.style.left='50%';s.style.top='50%';s.style.width='36px';s.style.height='42px'}field.appendChild(s)}
+ for(let i=0;i<40;i++){let e=document.createElement('div');e.className='unit enn';e.textContent=['AK','RPG','PKM'][i%3];e.style.left=(Math.random()*92)+'%';e.style.top=(Math.random()*86)+'%';field.appendChild(e)}
+ document.getElementById('mis').textContent='MISSION '+(cur+1)+'/40';
+ document.getElementById('enm').textContent=document.querySelectorAll('.enn').length+' ENN';
+ document.getElementById('chap').textContent='CHAP '+(Math.floor(cur/3)+1);
+ document.getElementById('log').textContent='📖 '+HIST[Math.min(cur,HIST.length-1)];
+}
+let joy=document.getElementById('joy'),stick=document.getElementById('stick'),act=false,cx=0,cy=0;
+joy.addEventListener('touchstart',e=>{act=true;let r=joy.getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;e.preventDefault()});
+joy.addEventListener('touchmove',e=>{if(!act)return;let t=e.touches[0],dx=t.clientX-cx,dy=t.clientY-cy,dist=Math.min(Math.hypot(dx,dy),42),ang=Math.atan2(dy,dx),sx=Math.cos(ang)*dist,sy=Math.sin(ang)*dist;stick.style.transform='translate(calc(-50% + '+sx+'px),calc(-50% + '+sy+'px))';let jack=document.getElementById('jack');if(jack){let nx=parseFloat(jack.style.left)+sx*0.18,ny=parseFloat(jack.style.top)+sy*0.18;jack.style.left=Math.max(2,Math.min(92,nx))+'%';jack.style.top=Math.max(2,Math.min(88,ny))+'%'}e.preventDefault()},{passive:false});
+joy.addEventListener('touchend',()=>{act=false;stick.style.transform='translate(-50%,-50%)'});
+function fire(){
+ let ens=[...document.querySelectorAll('.enn')].filter(x=>x.style.display!='none');
+ if(!ens.length){cur++;if(cur<40){spawn();document.getElementById('log').textContent='✅ LIBÉRÉ! Mission '+(cur+1)+'/40 - '+HIST[Math.min(cur,HIST.length-1)];localStorage.setItem('jack_mission',cur)}else{document.getElementById('log').textContent='🇸🇳 40/40 FINI! Casamance libérée, civils sauvés!'}return}
+ let tar=ens[Math.floor(Math.random()*Math.min(3,ens.length))];tar.style.display='none';
+ document.getElementById('enm').textContent=(ens.length-1)+' ENN';
+ if(navigator.vibrate)navigator.vibrate(30);
+}
+document.getElementById('fire').addEventListener('touchstart',e=>{fire();e.preventDefault()});
+document.getElementById('next').addEventListener('touchstart',e=>{fire();e.preventDefault()});
+cur=parseInt(localStorage.getItem('jack_mission')||'0');spawn();
+</script>
+</body>
+</html>
